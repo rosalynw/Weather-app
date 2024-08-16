@@ -15,6 +15,10 @@ h1, h3 {
     margin-top: 0;
 }
 
+.ph {
+    font-size: 24px;
+}
+
 .weather-app {
     min-height: 100vh;
     background-image: url(
@@ -94,7 +98,7 @@ h1, h3 {
         rgba(0, 0, 0, 0.3);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-left: 1px solid rgba(255, 255, 255, 0.18);
     z-index: 1;
     padding: 3em 2em;
     overflow-y: scroll;
@@ -108,7 +112,7 @@ h1, h3 {
     position: absolute;
     top: 0;
     right: 0;
-    padding: 1.5em;
+    padding: 1em;
     margin: 0;
     border: none;
     outline: none;
