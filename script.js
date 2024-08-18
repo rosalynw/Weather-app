@@ -119,6 +119,30 @@ function fetchWeatherData() {
             app.style.backgroundImage = `url(./images/${timeOfDay}/stars.jpg)`;
 
             btn.style.background = "#e5ba92";
+            if(timeOfDay == "night") {
+                btn.style.background = "#181e27";
+            }
+        } else if (
+            code == 1003 ||
+            code == 1006 ||
+            code == 1009 ||
+            code == 1030 ||
+            code == 1069 ||
+            code == 1087 ||
+            code == 1135 ||
+            code == 1273 ||
+            code == 1279 ||
+            code == 1282
+        ) {
+            app.style.backgroundImage = `url(./image/${timeOfDay}/cloudy.jpg)`;
         }
+        app.style.opacity ="1";
+        
+    })
+    .catch(() => {
+        alert("City not found.");
+        app.style.opacity = "1";
     })
 }
+
+fetchWeatherData();
