@@ -1,29 +1,6 @@
 const apiKey = 'ec9c9427be5442c1b0602352241808'
 // Get the modal element
-const modal = document.getElementById("searchModal");
 
-// Get the button that opens the modal
-const btn = document.querySelector(".lookup");
-
-// Get the <span> element that closes the modal
-//const span = document.querySelector(".close");
-
-// When the user clicks the button, open the modal 
-btn.onclick = function() {
-    modal.style.display = "flex"; // Use flex to center the modal
-}
-
-// When the user clicks on <span> (x), close the modal
-// span.onclick = function() {
-//     modal.style.display = "none";
-// }
-
-// Optional: Close the modal when clicking outside of it
-window.onclick = function(event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }
-}
 
 const app = document.querySelector('.weather-app');
 const temp = document.querySelector('.temp');
@@ -39,6 +16,8 @@ const form = document.querySelector('#locationInput');
 const search = document.querySelector('.search');
 const cities = document.querySelectorAll('.city');
 const searchResults = document.getElementById('searchResults');
+const changeTemp = document.getElementById('fahrenheit');
+const tempSwitch = document.querySelectorAll('input[name="btnradio"]');
 
 let cityInput = "London";
 
@@ -70,7 +49,7 @@ function fetchSearchResults(query) {
     fetch(url)
     .then(response => response.json())
     .then(data => {
-        console.log(data);
+
         displaySearchResults(data);
     })
     .catch(error => {
@@ -83,9 +62,11 @@ function displaySearchResults(results) {
     searchResults.innerHTML ='';
 
     results.forEach((result) => {
-        const resultItem = document.createElement('div');
+
+        const resultItem = document.createElement('li');
         resultItem.classList.add('result-item');
         resultItem.textContent = `${result.name}, ${result.country}`;
+        console.log(resultItem)
         resultItem.addEventListener('click', () => {
             cityInput = result.name;
             fetchWeatherData(cityInput);
@@ -93,7 +74,6 @@ function displaySearchResults(results) {
         });
         searchResults.appendChild(resultItem);
     })
-    
 }
 
 function dayOfTheWeek(day, month, year) {
@@ -110,6 +90,15 @@ function dayOfTheWeek(day, month, year) {
     return weekday[new Date(`${year}/${month}/${day}`).getDay()]
 };
 
+function getTemperature(data) {
+    return changeTemp.checked ? data.current.temp_f + "&#176;" : data.current.temp_c + "&#176;";
+}
+tempSwitch.forEach(radio => {
+    radio.addEventListener('change', () => {
+        fetchWeatherData(cityInput);
+    })
+})
+
 function fetchWeatherData(cityInput) {
 
     const url = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${cityInput}`
@@ -117,9 +106,10 @@ function fetchWeatherData(cityInput) {
     fetch(url)
     .then(response => response.json())
     .then(data => {
-        console.log(data);
+
+        temp.innerHTML = getTemperature(data);
         //Remember to add varibable for temp to change from F to C
-        temp.innerHTML = data.current.temp_f + "&#176;";
+
         conditionOutput.innerHTML = data.current.condition.text;
 
         const date = data.location.localtime;
@@ -130,7 +120,6 @@ function fetchWeatherData(cityInput) {
 
         dateOuput.innerHTML = `${dayOfTheWeek(d, m, y)} ${d}, ${m} ${y}`;
         timeOutput.innerHTML = time;
-        console.log(dateOuput);
         nameOutput.innerHTML = data.location.name;
 
         //Change weather icon based on condition output
@@ -156,9 +145,9 @@ function fetchWeatherData(cityInput) {
             icon.className = "ph ph-sun";
 
             //If condition is clear and night
-            btn.style.background = "#e5ba92";
+           
             if (timeOfDay === "night") {
-                btn.style.background = "#181e27";
+               
                 icon.className = "ph ph-moon-stars";
             }
         } else if (
