@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link type="text/css" rel="stylesheet" href="style.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link type="text/css" rel="stylesheet" href="style.css" />
     <!-- Phosphor Icons web -->
     <link
       rel="stylesheet"
@@ -11,72 +11,69 @@
       href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css"
     />
     <title>Weather App</title>
-</head>
-<body>
+  </head>
+  <body>
     <div class="weather-app">
-        <div class="container">
-            <h3 class="brand">The Weather</h3>
+      <div class="container">
+        <h3 class="brand">The Weather</h3>
         <div>
-        <h1 class="temp">16°</h1>
-        <div class="city-time">
+          <h1 class="temp">16°</h1>
+          <div class="city-time">
             <h1 class="name">London</h1>
-        <small>
-            <span class="time">06:09</span>
-            -
-            <span class="date">
-                Thursday Aug 15
-            </span>
-        </small>
-    </div>
-    <div class="weather">
-        <img
-            src=""
-            class="icon"
-            alt="icon"
-            width="50"
-            height="50"
-        />
-        <i class="ph ph-cloud"></i>
-        <span class="conditon">Cloudy</span>
-    </div>
-    </div>
-    </div>
-    <div class="panel">
-        <form id="locationInput">
-            <input
-            type="text"
-            class="search"
-            placeholder="Search Location..."
-            />
-            <button type="submit" class="submit">
-                <i class="ph ph-magnifying-glass"></i>
-            </button>
-        </form>
-        
+            <small>
+              <span class="time">06:09</span>
+              -
+              <span class="date"> Thursday Aug 15 </span>
+            </small>
+          </div>
+          <div class="weather">
+            <i class="ph ph-cloud"></i>
+            <span class="conditon">Cloudy</span>
+          </div>
+        </div>
+      </div>
+      <div class="panel">
+        <ul class="details">
+          <h4>Weather Details</h4>
+          <li>
+            <span>Cloudy</span>
+            <span class="cloud">89%</span>
+          </li>
+          <li>
+            <span>Humidity</span>
+            <span class="humidity">64%</span>
+          </li>
+          <li>
+            <span>Wind</span>
+            <span class="wind">8km/h</span>
+          </li>
+        </ul>
 
         <ul class="cities">
-            <li class="city">New York</li>
-            <li class="city">California</li>
-            <li class="city">Miami</li>
-            <li class="city">Hong Kong</li>
-            <li class="city">Tokyo</li>
+          <li class="city">New York</li>
+          <li class="city">California</li>
+          <li class="city">Miami</li>
+          <li class="city">Hong Kong</li>
+          <li class="city">Tokyo</li>
         </ul>
+        <!-- Button to open the modal -->
+        <button type="button" class="submit">
+          <i class="ph ph-magnifying-glass"></i>
+        </button>
 
-        <ul class="details">
-            <h4>Weather Details</h4>
-            <li>
-                <span>Cloudy</span>
-                <span class="cloud">89%</span>
-            </li>
-            <li>
-                <span>Humidity</span>
-                <span class="humidity">64%</span>
-            </li>
-            <li>
-                <span>Wind</span>
-                <span class="wind">8km/h</span>
-            </li>
-        </ul>
+        <!-- Modal Structure -->
+        <div class="modal" id="searchModal">
+          <form id="locationInput">
+            <input
+              type="text"
+              class="search"
+              placeholder="Search Location..."
+            />
+            <span class="close">&times;</span>
+          </form>
+        </div>
+      </div>
     </div>
-</body>
+    <script src="script.js"></script>
+  </body>
 </html>
