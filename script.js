@@ -30,11 +30,11 @@ const dateOuput = document.querySelector('.date');
 const timeOutput = document.querySelector('.time');
 const conditionOutput = document.querySelector('.condition');
 const nameOutput = document.querySelector('.name');
-const icon = document.querySelector('.icon');
-const cloudOutput = document.querySelector('.clout');
+const icon = document.getElementById('weather-icon')
+const cloudOutput = document.querySelector('.cloud');
 const humidityOutput = document.querySelector('.humidity');
 const windOutput = document.querySelector('.wind');
-const form = document.querySelector('locationInput');
+const form = document.querySelector('#locationInput');
 const search = document.querySelector('.search');
 const cities = document.querySelectorAll('.city');
 
@@ -42,6 +42,8 @@ let cityInput = "London";
 
 cities.forEach((city) => {
     city.addEventListener('click', (e) => {
+        console.log(city);
+        console.log(cityInput);
         cityInput = e.target.innerHTML;
 
         fetchWeatherData();
@@ -78,30 +80,46 @@ function dayOfTheWeek(day, month, year) {
 };
 
 function fetchWeatherData() {
+    const apiKey = 'ec9c9427be5442c1b0602352241808'
+    const url = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${cityInput}`
 
-    fetch(`https://www.weatherapi.com/v1/current.json?key=ec9c9427be5442c1b0602352241808=${cityInput}`)
+    fetch(url)
     .then(response => response.json())
     .then(data => {
-        console.log(data);
-        temp.innerHTML = data.current.temp_c + "&#176;";
+        //console.log(data);
+        //Remember to add varibable for temp to change from F to C
+        temp.innerHTML = data.current.temp_f + "&#176;";
         conditionOutput.innerHTML = data.current.condition.text;
 
         const date = data.location.localtime;
         const y = parseInt(date.substr(0,4));
         const m = parseInt(date.substr(5,2));
         const d = parseInt(date.substr(8,2));
-        const itme = date.substr(11);
+        const time = date.substr(11);
 
         dateOuput.innerHTML = `${dayOfTheWeek(d, m, y)} ${d}, ${m} ${y}`;
         timeOutput.innerHTML = time;
         
         nameOutput.innerHTML = data.location.name;
 
-        const iconId = data.current.condition.icon.substr(
-            "//cdn.weatherapi.com/weather/64x64/".length
-        );
+        //Change weather icon based on condition output
+        //if condition output = sunny
+        //change icon and condition innerhtml to <i class="ph ph-sun"></i> and "sunny"
 
-        icon.src = "./icon" + iconId;
+       // Change weather icon based on condition output
+       const condition = data.current.condition.text.toLowerCase();
+
+       if (condition.includes("sunny")) {
+           icon.className = "ph ph-sun";
+       } else if (condition.includes("cloudy")) {
+           icon.className = "ph ph-cloud";
+       } else if (condition.includes("rain")) {
+           icon.className = "ph ph-cloud-rain";
+       } else if (condition.includes("snow")) {
+           icon.className = "ph ph-snowflake";
+       } else {
+           icon.className = "ph ph-cloud";
+       }
 
         cloudOutput.innerHTML = data.current.cloud + "%";
         humidityOutput.innerHTML = data.current.humidity + "%";
@@ -109,38 +127,32 @@ function fetchWeatherData() {
 
         let timeOfDay = "day";
 
-        const code = data.current.condition.conde;
-
         if(!data.current.is_day) {
             timeOfDay = "night";
         }
 
-        if(code == 1000) {
-            app.style.backgroundImage = `url(./images/${timeOfDay}/stars.jpg)`;
+        // Update background image based on the condition
+        if (data.current.condition.code == 1000) {
+            app.style.backgroundImage = `url(./images/${timeOfDay}/clear.jpg)`;
 
             btn.style.background = "#e5ba92";
-            if(timeOfDay == "night") {
+            if (timeOfDay === "night") {
                 btn.style.background = "#181e27";
             }
         } else if (
-            code == 1003 ||
-            code == 1006 ||
-            code == 1009 ||
-            code == 1030 ||
-            code == 1069 ||
-            code == 1087 ||
-            code == 1135 ||
-            code == 1273 ||
-            code == 1279 ||
-            code == 1282
+            [1003, 1006, 1009, 1030, 1069, 1087, 1135, 1273, 1279, 1282].includes(data.current.condition.code)
         ) {
-            app.style.backgroundImage = `url(./image/${timeOfDay}/cloudy.jpg)`;
+            app.style.backgroundImage = `url(./images/${timeOfDay}/cloudy.jpg)`;
+        } else {
+            app.style.backgroundImage = `url(./images/${timeOfDay}/rain.jpg)`;
         }
-        app.style.opacity ="1";
+
+        app.style.opacity = "1";
         
     })
-    .catch(() => {
-        alert("City not found.");
+    .catch(error => {
+        console.error(error);
+        alert(error.message);
         app.style.opacity = "1";
     })
 }
