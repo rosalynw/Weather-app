@@ -110,6 +110,7 @@ h1, h3 {
 }
 
 .lookup {
+    position: absolute;
     top: 0;
     right: 0;
     padding: 1rem;
@@ -196,7 +197,7 @@ h1, h3 {
     position: absolute;
     background: #fff;
     color: #000;
-    width: 80%;
+    width: auto;
     max-height: 200px;
     overflow-y: auto;
     z-index: 10;

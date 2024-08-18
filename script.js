@@ -140,21 +140,9 @@ function fetchWeatherData(cityInput) {
        // Change weather icon based on condition output
        const condition = data.current.condition.text.toLowerCase();
 
-       if (condition.includes("sunny")) {
-           icon.className = "ph ph-sun";
-       } else if (condition.includes("cloudy")) {
-           icon.className = "ph ph-cloud";
-       } else if (condition.includes("rain")) {
-           icon.className = "ph ph-cloud-rain";
-       } else if (condition.includes("snow")) {
-           icon.className = "ph ph-snowflake";
-       } else {
-           icon.className = "ph ph-cloud";
-       }
-
         cloudOutput.innerHTML = data.current.cloud + "%";
         humidityOutput.innerHTML = data.current.humidity + "%";
-        windOutput.innerHTML = data.current.humidity + "km/h";
+        windOutput.innerHTML = data.current.gust_mph + " mph";
 
         let timeOfDay = "day";
 
@@ -165,17 +153,22 @@ function fetchWeatherData(cityInput) {
         // Update background image based on the condition
         if (data.current.condition.code == 1000) {
             app.style.backgroundImage = `url(./images/${timeOfDay}/clear.jpg)`;
+            icon.className = "ph ph-sun";
 
+            //If condition is clear and night
             btn.style.background = "#e5ba92";
             if (timeOfDay === "night") {
                 btn.style.background = "#181e27";
+                icon.className = "ph ph-moon-stars";
             }
         } else if (
             [1003, 1006, 1009, 1030, 1069, 1087, 1135, 1273, 1279, 1282].includes(data.current.condition.code)
         ) {
             app.style.backgroundImage = `url(./images/${timeOfDay}/cloudy.jpg)`;
+            icon.className = "ph ph-cloud";
         } else {
             app.style.backgroundImage = `url(./images/${timeOfDay}/rain.jpg)`;
+            icon.className ="ph ph-cloud-rain";
         }
 
         app.style.opacity = "1";
