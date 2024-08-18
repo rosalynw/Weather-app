@@ -107,7 +107,7 @@ function dayOfTheWeek(day, month, year) {
         "Saturday"
     ];
 
-    return weekday[new Date(`${day}/${month}/${year}`).getDay()]
+    return weekday[new Date(`${year}/${month}/${day}`).getDay()]
 };
 
 function fetchWeatherData(cityInput) {
@@ -130,7 +130,7 @@ function fetchWeatherData(cityInput) {
 
         dateOuput.innerHTML = `${dayOfTheWeek(d, m, y)} ${d}, ${m} ${y}`;
         timeOutput.innerHTML = time;
-        
+        console.log(dateOuput);
         nameOutput.innerHTML = data.location.name;
 
         //Change weather icon based on condition output
