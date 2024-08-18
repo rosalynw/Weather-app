@@ -1,11 +1,12 @@
+const apiKey = 'ec9c9427be5442c1b0602352241808'
 // Get the modal element
 const modal = document.getElementById("searchModal");
 
 // Get the button that opens the modal
-const btn = document.querySelector(".submit");
+const btn = document.querySelector(".lookup");
 
 // Get the <span> element that closes the modal
-const span = document.querySelector(".close");
+//const span = document.querySelector(".close");
 
 // When the user clicks the button, open the modal 
 btn.onclick = function() {
@@ -13,9 +14,9 @@ btn.onclick = function() {
 }
 
 // When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-    modal.style.display = "none";
-}
+// span.onclick = function() {
+//     modal.style.display = "none";
+// }
 
 // Optional: Close the modal when clicking outside of it
 window.onclick = function(event) {
@@ -37,6 +38,7 @@ const windOutput = document.querySelector('.wind');
 const form = document.querySelector('#locationInput');
 const search = document.querySelector('.search');
 const cities = document.querySelectorAll('.city');
+const searchResults = document.getElementById('searchResults');
 
 let cityInput = "London";
 
@@ -46,24 +48,53 @@ cities.forEach((city) => {
         console.log(cityInput);
         cityInput = e.target.innerHTML;
 
-        fetchWeatherData();
+        fetchWeatherData(cityInput);
         app.style.opacity = "0";
     })
 })
 
 form.addEventListener('submit', (e) => {
-    if(search.value.length == 0) {
+    e.preventDefault();
+    const cityInput = search.value.trim();
+
+    if(cityInput.length == 0) {
         alert('Please type in a city name');
     } else {
-        cityInput = search.value;
-
-        fetchWeatherData();
-        search.value = "";
-        app.style.opacity = "0";
+        fetchSearchResults(search.value);
     }
-
-    e.preventDefault();
 })
+
+function fetchSearchResults(query) {
+    const url = `https://api.weatherapi.com/v1/search.json?key=${apiKey}&q=${query}`;
+    console.log(query)
+    fetch(url)
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+        displaySearchResults(data);
+    })
+    .catch(error => {
+        console.error(error);
+        alert(error.message);
+    })
+};
+
+function displaySearchResults(results) {
+    searchResults.innerHTML ='';
+
+    results.forEach((result) => {
+        const resultItem = document.createElement('div');
+        resultItem.classList.add('result-item');
+        resultItem.textContent = `${result.name}, ${result.country}`;
+        resultItem.addEventListener('click', () => {
+            cityInput = result.name;
+            fetchWeatherData(cityInput);
+            searchResults.innerHTML = '';
+        });
+        searchResults.appendChild(resultItem);
+    })
+    
+}
 
 function dayOfTheWeek(day, month, year) {
     const weekday = [
@@ -79,14 +110,14 @@ function dayOfTheWeek(day, month, year) {
     return weekday[new Date(`${day}/${month}/${year}`).getDay()]
 };
 
-function fetchWeatherData() {
-    const apiKey = 'ec9c9427be5442c1b0602352241808'
+function fetchWeatherData(cityInput) {
+
     const url = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${cityInput}`
 
     fetch(url)
     .then(response => response.json())
     .then(data => {
-        //console.log(data);
+        console.log(data);
         //Remember to add varibable for temp to change from F to C
         temp.innerHTML = data.current.temp_f + "&#176;";
         conditionOutput.innerHTML = data.current.condition.text;
@@ -157,4 +188,4 @@ function fetchWeatherData() {
     })
 }
 
-fetchWeatherData();
+fetchWeatherData(cityInput);
