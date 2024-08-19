@@ -21,12 +21,17 @@ const tempSwitch = document.querySelectorAll('input[name="btnradio"]');
 
 let cityInput = "London";
 
+const hideSearchResults = () => {
+    searchResults.style.display = searchResults.innerHTML === '' ? 'none' : 'block';
+};
+
+function getTemperature(data) {
+    return changeTemp.checked ? data.current.temp_f + "&#176;" : data.current.temp_c + "&#176;";
+};
+
 cities.forEach((city) => {
     city.addEventListener('click', (e) => {
-        console.log(city);
-        console.log(cityInput);
         cityInput = e.target.innerHTML;
-
         fetchWeatherData(cityInput);
         app.style.opacity = "0";
     })
@@ -43,9 +48,15 @@ form.addEventListener('submit', (e) => {
     }
 })
 
+//Update app on temperature change
+tempSwitch.forEach(radio => {
+    radio.addEventListener('change', () => {
+        fetchWeatherData(cityInput);
+    })
+})
+
 function fetchSearchResults(query) {
     const url = `https://api.weatherapi.com/v1/search.json?key=${apiKey}&q=${query}`;
-    console.log(query)
     fetch(url)
     .then(response => response.json())
     .then(data => {
@@ -89,15 +100,6 @@ function dayOfTheWeek(day, month, year) {
 
     return weekday[new Date(`${year}/${month}/${day}`).getDay()]
 };
-
-function getTemperature(data) {
-    return changeTemp.checked ? data.current.temp_f + "&#176;" : data.current.temp_c + "&#176;";
-}
-tempSwitch.forEach(radio => {
-    radio.addEventListener('change', () => {
-        fetchWeatherData(cityInput);
-    })
-})
 
 function fetchWeatherData(cityInput) {
 

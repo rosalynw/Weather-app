@@ -133,19 +133,14 @@ h1, h3 {
     transition: 0.4s;
 }
 
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
+.collapse {
     overflow: auto;
-    background-color: rgba(0, 0, 0, 0.4);
-    display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.temp-change-group {
+    width: 100%;
 }
 
 .submit {
