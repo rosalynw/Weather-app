@@ -22,7 +22,7 @@
   <body>
     <div class="weather-app">
       <div class="container">
-        <h3 class="brand">The Weather</h3>
+        <h3 class="brand">The Weather <img class="sun-gif" src="./images/day/Sun.gif" ></h3>
         <div>
           <div class="btn-group temp-change-group" role="group" aria-label="temperature degrees toggle button group">
             <input type="radio" class="btn-check" name="btnradio" id="celsius" autocomplete="off">
@@ -61,13 +61,13 @@
 
         <!-- Modal Structure -->
         <div class="collapse" id="searchModal">
-          <form id="locationInput" class="card card-body">
+          <form id="locationInput" class="card card-body" style="background-color: rgba(255, 255, 255, 0.096);">
             <input
               type="text"
               class="search"
               placeholder="Search Location..."
             />
-            <button type="button" name="searchButton"class="submit btn btn-outline-secondary">
+            <button type="submit" name="searchButton"class="submit btn btn-outline-secondary">
               Search
             </button>
             <div id="searchResults-container">
@@ -75,6 +75,7 @@
             </div>
           </form>
         </div>
+        <div class="alert alert-warning" id="error-message" style="display: none"></div>
         <ul class="details">
           <h4>Weather Details</h4>
           <li>
