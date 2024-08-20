@@ -1,5 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&family=Major+Mono+Display&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
 
+
+:root {
+    --bs-body-bg: #f8f9fa; /* light gray background */
+    --bs-card-bg: var(--bs-body-bg);
+}
+
+.card {
+    background-color: var(--bs-card-bg);
+}
 body {
     margin: 0;
     font-family: "Rubik", sans-serif;
@@ -10,19 +19,29 @@ body {
     box-sizing: border-box;
 }
 
+
+::-webkit-scrollbar-thumb {
+    border-radius: 100vw;
+}
+
 h1, h3 {
     font-weight: 400;
     margin-top: 0;
 }
 
 .ph {
+    display: flex;
     font-size: 24px;
+    padding: 0;
+    margin: 0;
+    color: #fff;
 }
 
 .weather-app {
     min-height: 100vh;
+    /* preload image */
     background-image: url(
-        ./images/day/cloudy-day.jpg
+        ./images/day/cloudy.jpg
     );
     background-position: center;
     background-repeat: no-repeat;
@@ -102,41 +121,36 @@ h1, h3 {
     z-index: 1;
     padding: 3em 2em;
     overflow-y: scroll;
+    /* scrollbar-width: none; */
+    -ms-overflow-style: none;
 }
 
-.panel form {
-    margin-bottom: 3em;
-
-}
-
-.submit {
+.lookup {
+    position: absolute;
     top: 0;
     right: 0;
     padding: 1rem;
     margin: 0;
     border: none;
     outline: none;
-    background: #173677;
     color: #fff;
     cursor: pointer;
     font-size: 1.2em;
     transition: 0.4s;
-    border-radius: 50%;
 }
 
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
+.collapse {
     overflow: auto;
-    background-color: rgba(0, 0, 0, 0.4);
-    display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.temp-change-group {
+    margin: 15px;
+}
+
+.submit {
+    margin-top: 15px;
 }
 
 .submit:hover {
@@ -149,8 +163,8 @@ h1, h3 {
     border: none;
     border-bottom: 1px #ccc solid;
     padding: 0 1em 0.5em 0;
-    width: 80%;
-    color: #fff;
+    width: 100%;
+    color: #000;
     font-size: 1.1em;
 }
 
@@ -191,6 +205,18 @@ h1, h3 {
     justify-content: space-between;
     align-items: center;
 }
+
+#searchResults {
+    /* background: #fff; */
+    color: #000;
+    width: auto;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 10;
+    margin-top: 5px;
+}
+
+/* Responsive Design */
 
 @media screen and (max-width: 800px) {
     .panel, .container {

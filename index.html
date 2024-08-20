@@ -10,6 +10,13 @@
       type="text/css"
       href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css"
     />
+    <!-- Bootstrap -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
     <title>Weather App</title>
   </head>
   <body>
@@ -17,22 +24,57 @@
       <div class="container">
         <h3 class="brand">The Weather</h3>
         <div>
-          <h1 class="temp">16°</h1>
+          <div class="btn-group temp-change-group" role="group" aria-label="temperature degrees toggle button group">
+            <input type="radio" class="btn-check" name="btnradio" id="celsius" autocomplete="off">
+            <label class="btn btn-ouline-primary" for="celsius">C</label>
+
+            <input type="radio" class="btn-check" name="btnradio" id="fahrenheit" autocomplete="off" checked>
+            <label class="btn btn-ouline-primary" for="fahrenheit">F</label>
+          </div>
+          <h1 class="temp"></h1>
           <div class="city-time">
-            <h1 class="name">London</h1>
+            <h1 class="name"></h1>
             <small>
-              <span class="time">06:09</span>
+              <span class="time"></span>
               -
-              <span class="date"> Thursday Aug 15 </span>
+              <span class="date"></span>
             </small>
           </div>
           <div class="weather">
-            <i class="ph ph-cloud"></i>
-            <span class="conditon">Cloudy</span>
+            <i id="weather-icon" class="ph ph-cloud"></i>
+            <span class="condition">Cloudy</span>
           </div>
         </div>
       </div>
       <div class="panel">
+        <!-- Button to open the modal -->
+        <button
+          type="button"
+          class="lookup btn btn-outline-secondary"
+          data-bs-toggle="collapse"
+          data-bs-target="#searchModal"
+          aria-expanded="false"
+          aria-controls="searchModal"
+        >
+          <i class="ph ph-list"></i>
+        </button>
+
+        <!-- Modal Structure -->
+        <div class="collapse" id="searchModal">
+          <form id="locationInput" class="card card-body">
+            <input
+              type="text"
+              class="search"
+              placeholder="Search Location..."
+            />
+            <button type="button" name="searchButton"class="submit btn btn-outline-secondary">
+              Search
+            </button>
+            <div id="searchResults-container">
+              <ul id="searchResults"></ul>
+            </div>
+          </form>
+        </div>
         <ul class="details">
           <h4>Weather Details</h4>
           <li>
@@ -55,25 +97,15 @@
           <li class="city">Miami</li>
           <li class="city">Hong Kong</li>
           <li class="city">Tokyo</li>
+          <li class="city">London</li>
         </ul>
-        <!-- Button to open the modal -->
-        <button type="button" class="submit">
-          <i class="ph ph-magnifying-glass"></i>
-        </button>
-
-        <!-- Modal Structure -->
-        <div class="modal" id="searchModal">
-          <form id="locationInput">
-            <input
-              type="text"
-              class="search"
-              placeholder="Search Location..."
-            />
-            <span class="close">&times;</span>
-          </form>
-        </div>
       </div>
     </div>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
     <script src="script.js"></script>
   </body>
 </html>
