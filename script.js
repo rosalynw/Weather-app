@@ -16,14 +16,28 @@ const form = document.querySelector('#locationInput');
 const search = document.querySelector('.search');
 const cities = document.querySelectorAll('.city');
 const searchResults = document.getElementById('searchResults');
+const searchResultsContainer = document.getElementById('searchResults-container')
 const changeTemp = document.getElementById('fahrenheit');
 const tempSwitch = document.querySelectorAll('input[name="btnradio"]');
 
 let cityInput = "London";
 
 const hideSearchResults = () => {
-    searchResults.style.display = searchResults.innerHTML === '' ? 'none' : 'block';
+    searchResultsContainer.style.display = searchResults.innerHTML === '' ? 'none' : 'block';
 };
+
+//Hide search container on page load
+hideSearchResults();
+
+const fetchData = (url) => {
+    return fetch(url)
+        .then(response => response.json())
+        .catch(error => {
+            console.error(error);
+            alert(error.message);
+        });
+};
+
 
 function getTemperature(data) {
     return changeTemp.checked ? data.current.temp_f + "&#176;" : data.current.temp_c + "&#176;";
@@ -55,20 +69,13 @@ tempSwitch.forEach(radio => {
     })
 })
 
-function fetchSearchResults(query) {
+const fetchSearchResults = (query) => {
     const url = `https://api.weatherapi.com/v1/search.json?key=${apiKey}&q=${query}`;
-    fetch(url)
-    .then(response => response.json())
-    .then(data => {
-
-        displaySearchResults(data);
-    })
-    .catch(error => {
-        console.error(error);
-        alert(error.message);
-    })
+    fetchData(url).then(data => displaySearchResults(data));
 };
 
+
+//
 function displaySearchResults(results) {
     searchResults.innerHTML ='';
 
@@ -77,15 +84,18 @@ function displaySearchResults(results) {
         const resultItem = document.createElement('li');
         resultItem.classList.add('result-item');
         resultItem.textContent = `${result.name}, ${result.country}`;
-        console.log(resultItem)
         resultItem.addEventListener('click', () => {
             cityInput = result.name;
             fetchWeatherData(cityInput);
+            hideSearchResults();
             searchResults.innerHTML = '';
+            search.value = '';
         });
         searchResults.appendChild(resultItem);
     })
+    hideSearchResults();
 }
+
 
 function dayOfTheWeek(day, month, year) {
     const weekday = [
@@ -103,15 +113,10 @@ function dayOfTheWeek(day, month, year) {
 
 function fetchWeatherData(cityInput) {
 
-    const url = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${cityInput}`
-
-    fetch(url)
-    .then(response => response.json())
-    .then(data => {
+    const url = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${cityInput}`;
+    fetchData(url).then(data => {
 
         temp.innerHTML = getTemperature(data);
-        //Remember to add varibable for temp to change from F to C
-
         conditionOutput.innerHTML = data.current.condition.text;
 
         const date = data.location.localtime;
@@ -141,34 +146,32 @@ function fetchWeatherData(cityInput) {
             timeOfDay = "night";
         }
 
-        // Update background image based on the condition
+        // Update background image and weather icon based on the condition
         if (data.current.condition.code == 1000) {
             app.style.backgroundImage = `url(./images/${timeOfDay}/clear.jpg)`;
             icon.className = "ph ph-sun";
-
             //If condition is clear and night
-           
             if (timeOfDay === "night") {
-               
                 icon.className = "ph ph-moon-stars";
             }
         } else if (
-            [1003, 1006, 1009, 1030, 1069, 1087, 1135, 1273, 1279, 1282].includes(data.current.condition.code)
+            [1006, 1009, 1030, 1069, 1087, 1135, 1273, 1279, 1282].includes(data.current.condition.code)
         ) {
             app.style.backgroundImage = `url(./images/${timeOfDay}/cloudy.jpg)`;
             icon.className = "ph ph-cloud";
+        } else if (data.current.condition.code == 1003) {
+            app.style.backgroundImage = `url(./images/${timeOfDay}/cloudy.jpg)`;
+            icon.className = "ph ph-cloud-sun";
+
+            if (timeOfDay === "night") {
+                icon.className = "ph ph-cloud-moon";
+            }
         } else {
             app.style.backgroundImage = `url(./images/${timeOfDay}/rain.jpg)`;
             icon.className ="ph ph-cloud-rain";
         }
 
-        app.style.opacity = "1";
-        
-    })
-    .catch(error => {
-        console.error(error);
-        alert(error.message);
-        app.style.opacity = "1";
+        app.style.opacity = "1";  
     })
 }
 

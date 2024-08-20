@@ -1,5 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&family=Major+Mono+Display&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
 
+
+:root {
+    --bs-body-bg: #f8f9fa; /* light gray background */
+    --bs-card-bg: var(--bs-body-bg);
+}
+
+.card {
+    background-color: var(--bs-card-bg);
+}
 body {
     margin: 0;
     font-family: "Rubik", sans-serif;
@@ -8,6 +17,11 @@ body {
 
 * {
     box-sizing: border-box;
+}
+
+
+::-webkit-scrollbar-thumb {
+    border-radius: 100vw;
 }
 
 h1, h3 {
@@ -25,6 +39,7 @@ h1, h3 {
 
 .weather-app {
     min-height: 100vh;
+    /* preload image */
     background-image: url(
         ./images/day/cloudy.jpg
     );
@@ -106,17 +121,8 @@ h1, h3 {
     z-index: 1;
     padding: 3em 2em;
     overflow-y: scroll;
-    scrollbar-width: none;
+    /* scrollbar-width: none; */
     -ms-overflow-style: none;
-}
-
-.panel::-webkit-scrollbar {
-    display: none;
-}
-
-
-.panel form {
-    margin-bottom: 3em;
 }
 
 .lookup {
@@ -140,7 +146,7 @@ h1, h3 {
 }
 
 .temp-change-group {
-    width: 100%;
+    margin: 15px;
 }
 
 .submit {
@@ -157,7 +163,7 @@ h1, h3 {
     border: none;
     border-bottom: 1px #ccc solid;
     padding: 0 1em 0.5em 0;
-    width: 80%;
+    width: 100%;
     color: #000;
     font-size: 1.1em;
 }
@@ -201,7 +207,7 @@ h1, h3 {
 }
 
 #searchResults {
-    background: #fff;
+    /* background: #fff; */
     color: #000;
     width: auto;
     max-height: 200px;
