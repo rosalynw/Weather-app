@@ -2,7 +2,7 @@
 
 .card {
     background-color: var(--bs-card-bg);
-    margin-bottom: 15px;
+    margin: 15px 0
 }
 body {
     margin: 0;
@@ -14,14 +14,6 @@ body {
     box-sizing: border-box;
 }
 
-::-webkit-scrollbar-thumb {
-    border-radius: 100vw;
-}
-
-::-webkit-scrollbar-track {
-    color: aqua;
-}
-
 h1, h3 {
     font-weight: 400;
     margin-top: 0;
@@ -31,7 +23,6 @@ h3.brand {
     display: flex;
     align-items: center;
 }
-
 
 .ph {
     display: flex;
@@ -150,6 +141,7 @@ h3.brand {
 
 .submit {
     margin-top: 15px;
+    color: #ccc !important;
 }
 
 .search {

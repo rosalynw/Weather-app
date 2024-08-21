@@ -159,7 +159,7 @@ function fetchWeatherData(cityInput) {
 
         cloudOutput.innerHTML = data.current.cloud + "%";
         humidityOutput.innerHTML = data.current.humidity + "%";
-        windOutput.innerHTML = data.current.gust_mph + " mph";
+        windOutput.innerHTML = data.current.wind_mph + " mph";
 
         let timeOfDay = "day";
 
@@ -199,7 +199,4 @@ function fetchWeatherData(cityInput) {
 fetchWeatherData(cityInput);
 
 //build responsive!!!
-//implement fuzzy search with fuse.js
-//implement error messages for search
 //maybe figure out loading screens/transitions
-//style scrollbar
