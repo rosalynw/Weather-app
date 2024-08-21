@@ -1,6 +1,4 @@
 const apiKey = 'ec9c9427be5442c1b0602352241808'
-// Get the modal element
-
 
 const app = document.querySelector('.weather-app');
 const temp = document.querySelector('.temp');
@@ -19,7 +17,9 @@ const searchResults = document.getElementById('searchResults');
 const searchResultsContainer = document.getElementById('searchResults-container')
 const changeTemp = document.getElementById('fahrenheit');
 const tempSwitch = document.querySelectorAll('input[name="btnradio"]');
+const errorMessage = document.getElementById('error-message');
 
+//default city
 let cityInput = "London";
 
 const hideSearchResults = () => {
@@ -29,19 +29,46 @@ const hideSearchResults = () => {
 //Hide search container on page load
 hideSearchResults();
 
-const fetchData = (url) => {
-    return fetch(url)
-        .then(response => response.json())
-        .catch(error => {
-            console.error(error);
-            alert(error.message);
-        });
-};
-
-
 function getTemperature(data) {
     return changeTemp.checked ? data.current.temp_f + "&#176;" : data.current.temp_c + "&#176;";
 };
+
+const fetchData = async (url) => {
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return await response.json();
+    } catch (error) {
+        console.error(error);
+        throw(error.message);
+    }
+};
+
+//Search error message event listener
+form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const query = search.value.trim();
+    if (query.length === 0) {
+        displayErrorMessage('Please type in a city name');
+    } else if (query.length <= 2) {
+        displayErrorMessage('Please type full city name or more than 2 letters.')
+    }else {
+        fetchSearchResults(query)
+        .then(data => {
+        if (!data || data.length === 0) {
+            displayErrorMessage('No locations found. Try another location.');
+        } else {
+            displaySearchResults(data); // Assumes data is in the expected format
+        }
+    })
+    .catch(error => {
+        displayErrorMessage('Something went wrong. Please try again later.');
+        console.error('Error fetching search results:', error);
+    });
+    }
+})
 
 cities.forEach((city) => {
     city.addEventListener('click', (e) => {
@@ -49,17 +76,6 @@ cities.forEach((city) => {
         fetchWeatherData(cityInput);
         app.style.opacity = "0";
     })
-})
-
-form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const cityInput = search.value.trim();
-
-    if(cityInput.length == 0) {
-        alert('Please type in a city name');
-    } else {
-        fetchSearchResults(search.value);
-    }
 })
 
 //Update app on temperature change
@@ -71,14 +87,12 @@ tempSwitch.forEach(radio => {
 
 const fetchSearchResults = (query) => {
     const url = `https://api.weatherapi.com/v1/search.json?key=${apiKey}&q=${query}`;
-    fetchData(url).then(data => displaySearchResults(data));
+    return fetchData(url);
 };
-
 
 //
 function displaySearchResults(results) {
     searchResults.innerHTML ='';
-
     results.forEach((result) => {
 
         const resultItem = document.createElement('li');
@@ -96,6 +110,13 @@ function displaySearchResults(results) {
     hideSearchResults();
 }
 
+function displayErrorMessage(message) {
+    errorMessage.textContent = message;
+    errorMessage.style.display ='block';
+    setTimeout(() => {
+        errorMessage.style.display = 'none';
+    }, 8000);
+}
 
 function dayOfTheWeek(day, month, year) {
     const weekday = [
@@ -138,7 +159,7 @@ function fetchWeatherData(cityInput) {
 
         cloudOutput.innerHTML = data.current.cloud + "%";
         humidityOutput.innerHTML = data.current.humidity + "%";
-        windOutput.innerHTML = data.current.gust_mph + " mph";
+        windOutput.innerHTML = data.current.wind_mph + " mph";
 
         let timeOfDay = "day";
 
@@ -176,3 +197,6 @@ function fetchWeatherData(cityInput) {
 }
 
 fetchWeatherData(cityInput);
+
+//build responsive!!!
+//maybe figure out loading screens/transitions

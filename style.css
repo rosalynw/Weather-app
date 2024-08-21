@@ -1,13 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&family=Major+Mono+Display&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
 
-
-:root {
-    --bs-body-bg: #f8f9fa; /* light gray background */
-    --bs-card-bg: var(--bs-body-bg);
-}
-
 .card {
     background-color: var(--bs-card-bg);
+    margin: 15px 0
 }
 body {
     margin: 0;
@@ -19,14 +14,14 @@ body {
     box-sizing: border-box;
 }
 
-
-::-webkit-scrollbar-thumb {
-    border-radius: 100vw;
-}
-
 h1, h3 {
     font-weight: 400;
     margin-top: 0;
+}
+
+h3.brand {
+    display: flex;
+    align-items: center;
 }
 
 .ph {
@@ -79,6 +74,7 @@ h1, h3 {
 
 .container > div {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     align-items: center;
 }
@@ -121,7 +117,7 @@ h1, h3 {
     z-index: 1;
     padding: 3em 2em;
     overflow-y: scroll;
-    /* scrollbar-width: none; */
+    scrollbar-width: none;
     -ms-overflow-style: none;
 }
 
@@ -129,14 +125,8 @@ h1, h3 {
     position: absolute;
     top: 0;
     right: 0;
-    padding: 1rem;
     margin: 0;
-    border: none;
     outline: none;
-    color: #fff;
-    cursor: pointer;
-    font-size: 1.2em;
-    transition: 0.4s;
 }
 
 .collapse {
@@ -151,11 +141,7 @@ h1, h3 {
 
 .submit {
     margin-top: 15px;
-}
-
-.submit:hover {
-    background: #fff !important;
-    color: #000;
+    color: #ccc !important;
 }
 
 .search {
@@ -164,7 +150,7 @@ h1, h3 {
     border-bottom: 1px #ccc solid;
     padding: 0 1em 0.5em 0;
     width: 100%;
-    color: #000;
+    color: #ffffff;
     font-size: 1.1em;
 }
 
@@ -214,15 +200,30 @@ h1, h3 {
     overflow-y: auto;
     z-index: 10;
     margin-top: 5px;
+    scrollbar-width: thin;
+}
+
+.btn-group {
+    border: 1px solid;
+}
+
+.sun-gif {
+    height: 60px;
+    padding: 5px;
 }
 
 /* Responsive Design */
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 900px) {
     .panel, .container {
         position: relative;
         width: 100%;
         top: initial;
+    }
+
+    .container div {
+        display: flex;
+        flex-direction: column;
     }
 }
 
