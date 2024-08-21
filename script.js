@@ -169,7 +169,7 @@ function fetchWeatherData(cityInput) {
 
         // Update background image and weather icon based on the condition
         if (data.current.condition.code == 1000) {
-            app.style.backgroundImage = `url(./images/${timeOfDay}/clear.jpg)`;
+            app.style.backgroundImage = `url(./images/${timeOfDay}/parachute.jpg)`;
             icon.className = "ph ph-sun";
             //If condition is clear and night
             if (timeOfDay === "night") {
