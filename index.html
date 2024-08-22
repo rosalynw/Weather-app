@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/x-icon" href="/icons/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="/icons/favicon.ico" />
     <link type="text/css" rel="stylesheet" href="style.css" />
     <!-- Phosphor Icons web -->
     <link
@@ -23,13 +23,32 @@
   <body>
     <div class="weather-app">
       <div class="container">
-        <h3 class="brand">The Weather <img class="sun-gif" src="./icons/Sun.gif" ></h3>
+        <h3 class="brand">
+          The Weather <img class="sun-gif" src="./icons/Sun.gif" />
+        </h3>
         <div>
-          <div class="btn-group temp-change-group" role="group" aria-label="temperature degrees toggle button group">
-            <input type="radio" class="btn-check" name="btnradio" id="celsius" autocomplete="off">
+          <div
+            class="btn-group temp-change-group"
+            role="group"
+            aria-label="temperature degrees toggle button group"
+          >
+            <input
+              type="radio"
+              class="btn-check"
+              name="btnradio"
+              id="celsius"
+              autocomplete="off"
+            />
             <label class="btn btn-ouline-primary" for="celsius">C</label>
 
-            <input type="radio" class="btn-check" name="btnradio" id="fahrenheit" autocomplete="off" checked>
+            <input
+              type="radio"
+              class="btn-check"
+              name="btnradio"
+              id="fahrenheit"
+              autocomplete="off"
+              checked
+            />
             <label class="btn btn-ouline-primary" for="fahrenheit">F</label>
           </div>
           <div class="weather-main">
@@ -37,10 +56,9 @@
             <div class="city-time">
               <h1 class="name"></h1>
 
-                <span class="time"></span>
-                -
-                <span class="date"></span>
-
+              <span class="time"></span>
+              -
+              <span class="date"></span>
             </div>
             <div class="weather">
               <i id="weather-icon" class="ph ph-cloud"></i>
@@ -64,13 +82,21 @@
 
         <!-- Modal Structure -->
         <div class="collapse" id="searchModal">
-          <form id="locationInput" class="card card-body" style="background-color: rgba(255, 255, 255, 0.096);">
+          <form
+            id="locationInput"
+            class="card card-body"
+            style="background-color: rgba(255, 255, 255, 0.096)"
+          >
             <input
               type="text"
               class="search"
               placeholder="Search Location..."
             />
-            <button type="submit" name="searchButton"class="submit btn btn-outline-secondary">
+            <button
+              type="submit"
+              name="searchButton"
+              class="submit btn btn-outline-secondary"
+            >
               Search
             </button>
             <div id="searchResults-container">
@@ -78,7 +104,11 @@
             </div>
           </form>
         </div>
-        <div class="alert alert-warning" id="error-message" style="display: none"></div>
+        <div
+          class="alert alert-warning"
+          id="error-message"
+          style="display: none"
+        ></div>
         <ul class="details">
           <h4>Weather Details</h4>
           <li>

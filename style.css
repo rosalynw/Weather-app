@@ -4,6 +4,7 @@
     background-color: var(--bs-card-bg);
     margin: 15px 0
 }
+
 body {
     margin: 0;
     font-family: "Rubik", sans-serif !important;
@@ -19,7 +20,8 @@ html {
     scrollbar-width: none;
 }
 
-h1, h3 {
+h1,
+h3 {
     font-weight: 400;
     margin-top: 0;
 }
@@ -73,7 +75,7 @@ h3.brand {
     flex: 1;
 }
 
-.container > div {
+.container>div {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -196,7 +198,6 @@ h3.brand {
 }
 
 #searchResults {
-    /* background: #fff; */
     color: #000;
     width: auto;
     max-height: 200px;
