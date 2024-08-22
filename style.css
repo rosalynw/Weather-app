@@ -6,12 +6,13 @@
 }
 body {
     margin: 0;
-    font-family: "Rubik", sans-serif;
+    font-family: "Rubik", sans-serif !important;
     background: #111;
 }
 
 * {
     box-sizing: border-box;
+    scrollbar-width: none;
 }
 
 h1, h3 {
@@ -25,27 +26,24 @@ h3.brand {
 }
 
 .ph {
-    display: flex;
-    font-size: 24px;
-    padding: 0;
-    margin: 0;
+    /* Centers menu icon */
+    line-height: 1.5 !important;
+    font-size: 20px;
     color: #fff;
 }
 
 .weather-app {
+    display: flex;
+    justify-content: space-between;
     min-height: 100vh;
     /* preload image */
-    background-image: url(
-        ./images/day/cloudy.jpg
-    );
+    background-image: url(./images/day/cloudy.jpg);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
     color: #fff;
     position: relative;
     transition: 500ms;
-    opacity: 1;
-    /* Remember to change to 0 */
 }
 
 .weather-app::before {
@@ -60,23 +58,28 @@ h3.brand {
 }
 
 .container {
-    position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    margin: 0 !important;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     flex-direction: column;
     padding: 2em 3em 4em 3em;
+    flex: 1;
 }
 
 .container > div {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     justify-content: center;
+    align-items: flex-start;
+}
+
+.weather-main {
+    display: flex;
     align-items: center;
+    flex-wrap: wrap;
 }
 
 .city-time,
@@ -102,23 +105,19 @@ h3.brand {
 }
 
 .panel {
-    position: absolute;
-    width: 40%;
-    height: 100%;
+    width: 33%;
     top: 0;
-    right: 0;
+    height: 100vh;
     background: rgba(110, 110, 110, 0.25);
-    box-shadow: 
-        0 8px 32px 8
-        rgba(0, 0, 0, 0.3);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-left: 1px solid rgba(255, 255, 255, 0.18);
-    z-index: 1;
-    padding: 3em 2em;
-    overflow-y: scroll;
+    padding: 3em 2em 0 2em;
+    overflow-y: auto;
     scrollbar-width: none;
     -ms-overflow-style: none;
+    z-index: 1;
 }
 
 .lookup {
@@ -215,26 +214,34 @@ h3.brand {
 /* Responsive Design */
 
 @media screen and (max-width: 900px) {
-    .panel, .container {
-        position: relative;
-        width: 100%;
-        top: initial;
+    .weather-app {
+        flex-direction: column;
+        align-items: center;
+        background-position: center;
     }
 
-    .container div {
-        display: flex;
-        flex-direction: column;
+    .container {
+        width: 100%;
+        order: 1;
+        padding: 2em 1em;
+        align-items: center;
     }
+
+    .panel {
+        width: 100%;
+        order: 2;
+        border-left: none;
+        border-top: 1px solid rgba(255, 255, 255, 0.18);
+    }
+
 }
 
 @media screen and (max-width: 500px) {
     html {
-        font-size: 12px;
+        font-size: 16\4px;
     }
-}
 
-@media screen and (max-height: 300px) {
-    .weather-app {
-        min-height: 40em;
+    .city-time h1 {
+        font-size: 2em;
     }
 }
