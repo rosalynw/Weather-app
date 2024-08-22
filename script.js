@@ -1,4 +1,4 @@
-const apiKey = 'ec9c9427be5442c1b0602352241808'
+// const { response } = require("express");
 
 const app = document.querySelector('.weather-app');
 const temp = document.querySelector('.temp');
@@ -86,8 +86,11 @@ tempSwitch.forEach(radio => {
 })
 
 const fetchSearchResults = (query) => {
-    const url = `https://api.weatherapi.com/v1/search.json?key=${apiKey}&q=${query}`;
-    return fetchData(url);
+    const url = `/api/search?query=${query}`;
+    fetch(url)
+        .then(response => response.json())
+        .then(data => displaySearchResults(data))
+        .catch(error => console.error('Error fetching data:', error));
 };
 
 //
@@ -134,7 +137,7 @@ function dayOfTheWeek(day, month, year) {
 
 function fetchWeatherData(cityInput) {
 
-    const url = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${cityInput}`;
+    const url = `/api/weather?query=${cityInput}`;
     fetchData(url).then(data => {
 
         temp.innerHTML = getTemperature(data);
