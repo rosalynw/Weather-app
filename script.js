@@ -1,4 +1,5 @@
 // const { response } = require("express");
+const apiUrl = 'http://localhost:3000'
 
 const app = document.querySelector('.weather-app');
 const temp = document.querySelector('.temp');
@@ -55,8 +56,10 @@ form.addEventListener('submit', (e) => {
     } else if (query.length <= 2) {
         displayErrorMessage('Please type full city name or more than 2 letters.')
     }else {
+        console.log(query);
         fetchSearchResults(query)
         .then(data => {
+            console.log(data);
         if (!data || data.length === 0) {
             displayErrorMessage('No locations found. Try another location.');
         } else {
@@ -75,6 +78,9 @@ cities.forEach((city) => {
         cityInput = e.target.innerHTML;
         fetchWeatherData(cityInput);
         app.style.opacity = "0";
+        if (window.innerWidth < 768) {
+            scrollToTop();
+        }
     })
 })
 
@@ -85,28 +91,41 @@ tempSwitch.forEach(radio => {
     })
 })
 
-const fetchSearchResults = (query) => {
-    const url = `/api/search?query=${query}`;
-    fetch(url)
-        .then(response => response.json())
-        .then(data => displaySearchResults(data))
-        .catch(error => console.error('Error fetching data:', error));
+const fetchSearchResults = async (query) => {
+    const url = `${apiUrl}/api/search?query=${query}`;
+    try {
+        const data = await fetchData(url); // Fetch data using fetchData
+        console.log('Raw Data:', data); // Log the raw data
+        return data; // Explicitly return the data
+    } catch (error) {
+        console.error('Error fetching search results:', error);
+        displayErrorMessage('Something went wrong. Please try again later.');
+        return []; // Optionally return an empty array or something appropriate in case of error
+    }
 };
 
-//
+function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
 function displaySearchResults(results) {
     searchResults.innerHTML ='';
-    results.forEach((result) => {
 
+    results.forEach((result) => {
         const resultItem = document.createElement('li');
         resultItem.classList.add('result-item');
         resultItem.textContent = `${result.name}, ${result.country}`;
         resultItem.addEventListener('click', () => {
             cityInput = result.name;
             fetchWeatherData(cityInput);
-            hideSearchResults();
             searchResults.innerHTML = '';
             search.value = '';
+            console.log(searchResults.style.display)
+            hideSearchResults();
+
+            if (window.innerWidth < 768) {
+                scrollToTop();
+            }
         });
         searchResults.appendChild(resultItem);
     })
@@ -137,7 +156,7 @@ function dayOfTheWeek(day, month, year) {
 
 function fetchWeatherData(cityInput) {
 
-    const url = `/api/weather?query=${cityInput}`;
+    const url = `${apiUrl}/api/weather?query=${cityInput}`;
     fetchData(url).then(data => {
 
         temp.innerHTML = getTemperature(data);
