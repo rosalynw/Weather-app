@@ -154,64 +154,69 @@ function dayOfTheWeek(day, month, year) {
   return weekday[new Date(`${year}/${month}/${day}`).getDay()];
 }
 
-function fetchWeatherData(cityInput) {
-  const url = `${apiUrl}/api/weather?query=${cityInput}`;
-  fetchData(url).then((data) => {
-    temp.innerHTML = getTemperature(data);
-    conditionOutput.innerHTML = data.current.condition.text;
-
-    const date = data.location.localtime;
-    const y = parseInt(date.substr(0, 4));
-    const m = parseInt(date.substr(5, 2));
-    const d = parseInt(date.substr(8, 2));
-    const time = date.substr(11);
-
-    dateOuput.innerHTML = `${dayOfTheWeek(d, m, y)} ${d}, ${m} ${y}`;
-    timeOutput.innerHTML = time;
-    nameOutput.innerHTML = data.location.name;
-
-    const condition = data.current.condition.text.toLowerCase();
-
-    cloudOutput.innerHTML = data.current.cloud + "%";
-    humidityOutput.innerHTML = data.current.humidity + "%";
-    windOutput.innerHTML = data.current.wind_mph + " mph";
-
-    let timeOfDay = "day";
-
-    if (!data.current.is_day) {
-      timeOfDay = "night";
-    }
-
-    // Update background image and weather icon based on the condition
-    if (data.current.condition.code == 1000) {
-      app.style.backgroundImage = `url(./images/${timeOfDay}/clear.jpg)`;
-      icon.className = "ph ph-sun";
-      //If condition is clear and night
-      if (timeOfDay === "night") {
-        icon.className = "ph ph-moon-stars";
+async function fetchWeatherData(cityInput) {
+    const url = `${apiUrl}/api/weather?query=${cityInput}`;
+    try {
+      const data = await fetchData(url); // Fetch data using fetchData
+      temp.innerHTML = getTemperature(data);
+      conditionOutput.innerHTML = data.current.condition.text;
+  
+      const date = data.location.localtime;
+      const y = parseInt(date.substr(0, 4));
+      const m = parseInt(date.substr(5, 2));
+      const d = parseInt(date.substr(8, 2));
+      const time = date.substr(11);
+  
+      dateOuput.innerHTML = `${dayOfTheWeek(d, m, y)} ${d}, ${m} ${y}`;
+      timeOutput.innerHTML = time;
+      nameOutput.innerHTML = data.location.name;
+  
+      const condition = data.current.condition.text.toLowerCase();
+  
+      cloudOutput.innerHTML = data.current.cloud + "%";
+      humidityOutput.innerHTML = data.current.humidity + "%";
+      windOutput.innerHTML = data.current.wind_mph + " mph";
+  
+      let timeOfDay = "day";
+  
+      if (!data.current.is_day) {
+        timeOfDay = "night";
       }
-    } else if (
-      [1006, 1009, 1030, 1069, 1087, 1135, 1273, 1279, 1282].includes(
-        data.current.condition.code
-      )
-    ) {
-      app.style.backgroundImage = `url(./images/${timeOfDay}/cloudy.jpg)`;
-      icon.className = "ph ph-cloud";
-      //specifically check for "partly cloudy"
-    } else if (data.current.condition.code == 1003) {
-      app.style.backgroundImage = `url(./images/${timeOfDay}/cloudy.jpg)`;
-      icon.className = "ph ph-cloud-sun";
-
-      if (timeOfDay === "night") {
-        icon.className = "ph ph-cloud-moon";
+  
+      // Update background image and weather icon based on the condition
+      if (data.current.condition.code == 1000) {
+        app.style.backgroundImage = `url(./images/${timeOfDay}/clear.jpg)`;
+        icon.className = "ph ph-sun";
+        //If condition is clear and night
+        if (timeOfDay === "night") {
+          icon.className = "ph ph-moon-stars";
+        }
+      } else if (
+        [1006, 1009, 1030, 1069, 1087, 1135, 1273, 1279, 1282].includes(
+          data.current.condition.code
+        )
+      ) {
+        app.style.backgroundImage = `url(./images/${timeOfDay}/cloudy.jpg)`;
+        icon.className = "ph ph-cloud";
+        //specifically check for "partly cloudy"
+      } else if (data.current.condition.code == 1003) {
+        app.style.backgroundImage = `url(./images/${timeOfDay}/cloudy.jpg)`;
+        icon.className = "ph ph-cloud-sun";
+  
+        if (timeOfDay === "night") {
+          icon.className = "ph ph-cloud-moon";
+        }
+      } else {
+        app.style.backgroundImage = `url(./images/${timeOfDay}/rain.jpg)`;
+        icon.className = "ph ph-cloud-rain";
       }
-    } else {
-      app.style.backgroundImage = `url(./images/${timeOfDay}/rain.jpg)`;
-      icon.className = "ph ph-cloud-rain";
+  
+      app.style.opacity = "1";
+    } catch (error) {
+      console.error("Error fetching weather data:", error);
+      displayErrorMessage("Something went wrong. Please try again later.");
     }
-
-    app.style.opacity = "1";
-  });
-}
+  }
+  
 
 fetchWeatherData(cityInput);
